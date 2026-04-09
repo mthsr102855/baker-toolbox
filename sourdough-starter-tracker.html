@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🔪 Sourdough Starter Tracker</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap');
+        :root { --primary: #d97757; }
+        body { font-family:'Inter',sans-serif; background:linear-gradient(135deg,#f8f1e9,#f4e6d8); margin:0; padding:20px; color:#3c2f2f; }
+        .container { max-width:820px; margin:30px auto; background:white; border-radius:20px; box-shadow:0 25px 50px -12px rgb(0 0 0 /0.15); overflow:hidden; }
+        header { background:linear-gradient(to right,#d97757,#c2410c); color:white; padding:40px 30px; text-align:center; }
+        h1 { font-family:'Playfair Display',serif; font-size:2.6rem; margin:0; }
+        .main-content { padding:40px 30px; }
+        input, select { width:100%; padding:16px; border:2px solid #e5d5c0; border-radius:12px; margin-bottom:12px; }
+        button { background:var(--primary); color:white; border:none; padding:16px; font-size:1.1rem; font-weight:600; border-radius:12px; width:100%; cursor:pointer; margin:10px 0; }
+        .log { margin-top:20px; }
+        .entry { background:#f8f1e9; padding:15px; margin-bottom:10px; border-radius:12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header><h1>🔪 Sourdough Starter Tracker</h1><p>Log feedings & monitor health</p></header>
+        <div class="main-content">
+            <label>Date & Time</label>
+            <input type="datetime-local" id="feedDate">
+            
+            <label>Feeding Ratio (e.g. 1:1:1)</label>
+            <input type="text" id="ratio" value="1:1:1" placeholder="1:1:1">
+            
+            <label>Notes / Health (smell, bubbles, rise)</label>
+            <input type="text" id="notes" placeholder="Doubled in 6 hours, nice sour smell">
+            
+            <button onclick="addEntry()">Log Feeding</button>
+            <button onclick="clearLog()">Clear All Logs</button>
+            
+            <div class="log" id="log"></div>
+        </div>
+    </div>
+
+    <script>
+        function loadLogs() {
+            const logs = JSON.parse(localStorage.getItem('starterLogs') || '[]');
+            let html = '<h3>Feeding History</h3>';
+            logs.reverse().forEach((entry, i) => {
+                html += `<div class="entry"><strong>${entry.date}</strong><br>Ratio: ${entry.ratio}<br>${entry.notes}</div>`;
+            });
+            document.getElementById('log').innerHTML = html;
+        }
+        
+        function addEntry() {
+            const date = document.getElementById('feedDate').value || new Date().toLocaleString();
+            const ratio = document.getElementById('ratio').value;
+            const notes = document.getElementById('notes').value;
+            
+            let logs = JSON.parse(localStorage.getItem('starterLogs') || '[]');
+            logs.push({date, ratio, notes});
+            localStorage.setItem('starterLogs', JSON.stringify(logs));
+            loadLogs();
+        }
+        
+        function clearLog() {
+            if (confirm("Clear all feeding logs?")) {
+                localStorage.removeItem('starterLogs');
+                loadLogs();
+            }
+        }
+        
+        window.onload = () => {
+            document.getElementById('feedDate').value = new Date().toISOString().slice(0,16);
+            loadLogs();
+        };
+    </script>
+</body>
+</html>
