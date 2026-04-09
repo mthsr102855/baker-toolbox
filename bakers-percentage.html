@@ -50,7 +50,7 @@
             html += `Water: ${Math.round(flour * water / 100)}g (${water}%)<br>`;
             html += `Salt: ${Math.round(flour * salt / 100)}g (${salt}%)<br>`;
             html += `Starter: ${Math.round(flour * starter / 100)}g (${starter}%)<br>`;
-            html += `<small>Total dough weight ≈ ${Math.round(flour + flour*water/100 + flour*salt/100 + flour*starter/100)}g ≈ ${Math.round((flour + flour*water/100 + flour*salt/100 + flour*starter/100)/28.3495)}</small>`;
+            html += `<small>Total dough weight ≈ ${Math.round(flour + flour*water/100 + flour*salt/100 + flour*starter/100)}g ≈ ${Math.round((flour + flour*water/100 + flour*salt/100 + flour*starter/100)/28.3495)}oz</small>`;
             
             document.getElementById('result').innerHTML = html;
         }
