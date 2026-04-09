@@ -19,7 +19,6 @@
             padding: 20px;
             color: #3c2f2f;
             line-height: 1.6;
-            -webkit-tap-highlight-color: transparent;
         }
         
         .container {
@@ -80,11 +79,6 @@
             box-shadow: 0 12px 25px rgba(217, 119, 87, 0.15);
         }
         
-        .menu-item:first-child {
-            border-color: var(--primary);
-            background: #fffaf0;
-        }
-        
         .icon {
             font-size: 2.2rem;
             margin-right: 20px;
@@ -121,7 +115,6 @@
         
         @media (max-width: 768px) {
             h1 { font-size: 2.5rem; }
-            .menu-item { padding: 20px 24px; }
         }
     </style>
 </head>
@@ -129,50 +122,47 @@
     <div class="container">
         <header>
             <h1>🥖 Baker's Toolbox</h1>
-            <p class="subtitle">&emsp;Essential tools for better bread at home</p>
+            <p class="subtitle">Essential tools for better bread at home</p>
         </header>
         
         <div class="main-content">
             <div class="menu">
-                <!-- First item: Hydration Calculator -->
-                <a href="https://html-preview.github.io/?url=https://gist.githubusercontent.com/mthsr102855/03fe207d376508ccdc47619bc2825e9f/raw/1ffce4b9840dc9926bf0288e56e0e6a8f0d53243/bread-hydration-calculator.html" class="menu-item">
+                <a href="bread-hydration-calculator.html" class="menu-item">
                     <div class="icon">💧</div>
                     <div class="menu-content">
                         <h3>Dough Hydration Calculator</h3>
-                        <p>Multi-flour support • Real-time standard & effective hydration • Sourdough starter included</p>
+                        <p>Multi-flour support • Real-time standard & effective hydration</p>
                     </div>
                 </a>
                 
-                <!-- Future items (easy to expand) -->
-                <a href="https://html-preview.github.io/?url=https://gist.githubusercontent.com/mthsr102855/a5e48104dcccb292b787af77c99ecfb5/raw/b7c6891765620d84fc1ab1124ba8cf581b5d5135/bulk-fermentation-timer.html" class="menu-item">
+                <a href="bulk-fermentation-timer.html" class="menu-item">
                     <div class="icon">⏱️</div>
                     <div class="menu-content">
                         <h3>Bulk Fermentation Timer</h3>
-                        <p>Track proofing times with temperature adjustment</p>
+                        <p>Estimate time based on dough temperature and rise</p>
                     </div>
                 </a>
                 
-                <a href="https://html-preview.github.io/?url=https://gist.githubusercontent.com/mthsr102855/565953210bd34583b8d5af12a31812d3/raw/e1b23abb575dbfeb7cdb2c2b192f4d6457fa11a3/bakers-percentage.html
-" class="menu-item">
+                <a href="bakers-percentage.html" class="menu-item">
                     <div class="icon">📏</div>
                     <div class="menu-content">
-                        <h3>Baker's Percentage Converter</h3>
-                        <p>Scale recipes instantly</p>
+                        <h3>Baker’s Percentage Converter</h3>
+                        <p>Scale any recipe instantly</p>
                     </div>
                 </a>
                 
-                <a href="https://html-preview.github.io/?url=https://gist.githubusercontent.com/mthsr102855/10052ff0a59e55d109b2d274d4547a84/raw/c69bcf4c357b1b14e651fbf22deff5c399d0a48e/sourdough-starter-tracker.html" class="menu-item">
+                <a href="sourdough-starter-tracker.html" class="menu-item">
                     <div class="icon">🔪</div>
                     <div class="menu-content">
                         <h3>Sourdough Starter Tracker</h3>
-                        <p>Sourdough feeding schedule and maturity guide</p>
+                        <p>Log feedings and monitor your starter’s health</p>
                     </div>
                 </a>
             </div>
             
             <div class="info-box">
-                <strong>How to use:</strong> Tap any tool above. All calculations work completely offline once saved.<br><br>
-                <strong>Tip:</strong> On iPad, use Share → "Add to Home Screen" on each page for quick app-like access.
+                <strong>How to use:</strong> Tap any tool. All pages work completely offline once loaded.<br><br>
+                <strong>Pro tip:</strong> On each page, tap Share → "Add to Home Screen" for quick one-tap access like real apps.
             </div>
         </div>
         
