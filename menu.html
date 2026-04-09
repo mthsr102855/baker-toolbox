@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🥖 Baker's Toolbox</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap');
+        
+        :root {
+            --primary: #d97757;
+            --accent: #8d5524;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+            background: linear-gradient(135deg, #f8f1e9 0%, #f4e6d8 100%);
+            margin: 0;
+            padding: 20px;
+            color: #3c2f2f;
+            line-height: 1.6;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .container {
+            max-width: 820px;
+            margin: 30px auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.15);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--primary), #c2410c);
+            color: white;
+            padding: 50px 30px 40px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin: 0 0 12px 0;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            margin: 0;
+        }
+        
+        .main-content {
+            padding: 40px 30px;
+        }
+        
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 2px solid #e5d5c0;
+            border-radius: 16px;
+            padding: 24px 28px;
+            text-decoration: none;
+            color: #3c2f2f;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        
+        .menu-item:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(217, 119, 87, 0.15);
+        }
+        
+        .menu-item:first-child {
+            border-color: var(--primary);
+            background: #fffaf0;
+        }
+        
+        .icon {
+            font-size: 2.2rem;
+            margin-right: 20px;
+            width: 60px;
+        }
+        
+        .menu-content h3 {
+            margin: 0 0 6px 0;
+            font-size: 1.35rem;
+            color: #5c4033;
+        }
+        
+        .menu-content p {
+            margin: 0;
+            color: #8d6f5c;
+            font-size: 1.05rem;
+        }
+        
+        .info-box {
+            background: #f8f1e9;
+            padding: 26px;
+            border-radius: 16px;
+            margin-top: 40px;
+            font-size: 1.02rem;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 32px 20px;
+            color: #8d6f5c;
+            font-size: 0.95rem;
+            border-top: 1px solid #f0e6d8;
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .menu-item { padding: 20px 24px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🥖 Baker's Toolbox</h1>
+            <p class="subtitle">&emsp;Essential tools for better bread at home</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="menu">
+                <!-- First item: Hydration Calculator -->
+                <a href="https://html-preview.github.io/?url=https://gist.githubusercontent.com/mthsr102855/03fe207d376508ccdc47619bc2825e9f/raw/1ffce4b9840dc9926bf0288e56e0e6a8f0d53243/bread-hydration-calculator.html" class="menu-item">
+                    <div class="icon">💧</div>
+                    <div class="menu-content">
+                        <h3>Dough Hydration Calculator</h3>
+                        <p>Multi-flour support • Real-time standard & effective hydration • Sourdough starter included</p>
+                    </div>
+                </a>
+                
+                <!-- Future items (easy to expand) -->
+                <a href="https://html-preview.github.io/?url=https://gist.githubusercontent.com/mthsr102855/a5e48104dcccb292b787af77c99ecfb5/raw/b7c6891765620d84fc1ab1124ba8cf581b5d5135/bulk-fermentation-timer.html" class="menu-item">
+                    <div class="icon">⏱️</div>
+                    <div class="menu-content">
+                        <h3>Bulk Fermentation Timer</h3>
+                        <p>Track proofing times with temperature adjustment</p>
+                    </div>
+                </a>
+                
+                <a href="https://html-preview.github.io/?url=https://gist.githubusercontent.com/mthsr102855/565953210bd34583b8d5af12a31812d3/raw/e1b23abb575dbfeb7cdb2c2b192f4d6457fa11a3/bakers-percentage.html
+" class="menu-item">
+                    <div class="icon">📏</div>
+                    <div class="menu-content">
+                        <h3>Baker's Percentage Converter</h3>
+                        <p>Scale recipes instantly</p>
+                    </div>
+                </a>
+                
+                <a href="https://html-preview.github.io/?url=https://gist.githubusercontent.com/mthsr102855/10052ff0a59e55d109b2d274d4547a84/raw/c69bcf4c357b1b14e651fbf22deff5c399d0a48e/sourdough-starter-tracker.html" class="menu-item">
+                    <div class="icon">🔪</div>
+                    <div class="menu-content">
+                        <h3>Sourdough Starter Tracker</h3>
+                        <p>Sourdough feeding schedule and maturity guide</p>
+                    </div>
+                </a>
+            </div>
+            
+            <div class="info-box">
+                <strong>How to use:</strong> Tap any tool above. All calculations work completely offline once saved.<br><br>
+                <strong>Tip:</strong> On iPad, use Share → "Add to Home Screen" on each page for quick app-like access.
+            </div>
+        </div>
+        
+        <div class="footer">
+            Built for home bakers • Beautiful bread awaits 🥖
+        </div>
+    </div>
+</body>
+</html>
