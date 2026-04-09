@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🥖 Bread Dough Hydration Calculator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap');
+        
+        :root {
+            --primary: #d97757;
+            --accent: #8d5524;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+            background: linear-gradient(135deg, #f8f1e9 0%, #f4e6d8 100%);
+            margin: 0;
+            padding: 20px;
+            color: #3c2f2f;
+            line-height: 1.6;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .container {
+            max-width: 820px;
+            margin: 30px auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.15);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--primary), #c2410c);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            margin: 0 0 10px 0;
+        }
+        
+        .subtitle {
+            font-size: 1.15rem;
+            opacity: 0.95;
+            margin: 0;
+        }
+        
+        .main-content {
+            padding: 40px 30px;
+        }
+        
+        .calculator {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        .input-group {
+            margin-bottom: 26px;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #4a3728;
+            font-size: 1.05rem;
+        }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 16px 18px;
+            border: 2px solid #e5d5c0;
+            border-radius: 12px;
+            font-size: 1.15rem;
+            box-sizing: border-box;
+        }
+        
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(217, 119, 87, 0.15);
+        }
+        
+        select {
+            width: 100%;
+            padding: 16px 18px;
+            border: 2px solid #e5d5c0;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            background: white;
+        }
+        
+        .result {
+            background: #fffaf0;
+            border: 3px solid var(--primary);
+            border-radius: 16px;
+            padding: 32px 24px;
+            text-align: center;
+        }
+        
+        .hydration-level {
+            font-size: 4.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 8px 0 4px 0;
+            line-height: 1;
+        }
+        
+        .effective {
+            font-size: 1.4rem;
+            color: #c2410c;
+            margin: 8px 0;
+        }
+        
+        .description {
+            font-size: 1.08rem;
+            color: #6b5a4a;
+            max-width: 340px;
+            margin: 0 auto;
+        }
+        
+        .info {
+            background: #f8f1e9;
+            padding: 26px;
+            border-radius: 16px;
+            margin-top: 32px;
+        }
+        
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 12px;
+        }
+        
+        button:hover {
+            background: #c2410c;
+        }
+        
+        .presets {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+        
+        .preset-btn {
+            background: #f4e6d8;
+            color: #5c4033;
+            border: 2px solid #e5d5c0;
+            padding: 10px 18px;
+            border-radius: 9999px;
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 28px;
+            color: #8d6f5c;
+            font-size: 0.95rem;
+            border-top: 1px solid #f0e6d8;
+        }
+        
+        @media (max-width: 768px) {
+            .calculator { grid-template-columns: 1fr; gap: 30px; }
+            h1 { font-size: 2.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🥖 Dough Hydration Calculator</h1>
+            <p class="subtitle">Now with flour blend adjustment</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="calculator">
+                <!-- Inputs -->
+                <div>
+                    <h2 style="margin-top:0; color:#5c4033;">Ingredients (grams)</h2>
+                    
+                    <div class="input-group">
+                        <label for="whiteFlour">White / Bread / AP Flour</label>
+                        <input type="number" id="whiteFlour" value="400" min="0" step="1" inputmode="decimal" oninput="calculateHydration()">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="wholeWheat">Whole Wheat Flour</label>
+                        <input type="number" id="wholeWheat" value="100" min="0" step="1" inputmode="decimal" oninput="calculateHydration()">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="ryeFlour">Rye Flour</label>
+                        <input type="number" id="ryeFlour" value="0" min="0" step="1" inputmode="decimal" oninput="calculateHydration()">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="water">Water</label>
+                        <input type="number" id="water" value="350" min="1" step="1" inputmode="decimal" oninput="calculateHydration()">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="starter">Sourdough Starter / Levain</label>
+                        <input type="number" id="starter" value="100" min="0" step="1" inputmode="decimal" oninput="calculateHydration()">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="otherLiquids">Other Liquids (milk, oil, etc.)</label>
+                        <input type="number" id="otherLiquids" value="0" min="0" step="1" inputmode="decimal" oninput="calculateHydration()">
+                    </div>
+                    
+                    <button onclick="resetToDefaults()">Reset to Defaults</button>
+                    
+                    <div class="presets">
+                        <button class="preset-btn" onclick="loadPreset(65)">65% Classic</button>
+                        <button class="preset-btn" onclick="loadPreset(70)">70% Artisan</button>
+                        <button class="preset-btn" onclick="loadPreset(75)">75% Ciabatta</button>
+                        <button class="preset-btn" onclick="loadPreset(80)">80% High</button>
+                    </div>
+                </div>
+                
+                <!-- Results -->
+                <div>
+                    <h2 style="margin-top:0; color:#5c4033;">Hydration Result</h2>
+                    
+                    <div class="result" id="result">
+                        <div class="hydration-text">Standard Hydration</div>
+                        <div class="hydration-level" id="hydrationPercent">70</div>
+                        <div class="effective" id="effectiveHydration"></div>
+                        <div style="font-size:1.35rem; color:#d97757; font-weight:600; margin:12px 0;" id="hydrationLabel">Moderate Hydration</div>
+                        <div class="description" id="description">
+                            Versatile hydration for most artisan breads.
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px; font-size: 0.95rem; color: #8d6f5c; text-align: center;">
+                        <strong>Formula:</strong> (Total Liquid ÷ Total Flour) × 100<br>
+                        <small>Starter = 50% water / 50% flour • Absorption adjusted for whole wheat (+8%) and rye (+15%)</small>
+                    </div>
+                    
+                    <div class="info">
+                        <h3>💡 Flour Absorption Guide</h3>
+                        <p>Whole wheat and rye absorb more water than white flour. The calculator shows both the standard % and an <strong>effective feel</strong> (how the dough will behave compared to all-white flour).</p>
+                        <ul style="padding-left: 22px; line-height: 1.7;">
+                            <li><strong>White/Bread/AP</strong>: baseline</li>
+                            <li><strong>Whole Wheat</strong>: ~5–10% more water needed</li>
+                            <li><strong>Rye</strong>: ~10–20% more water needed</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            Real-time • Multi-flour support • Offline
+        </div>
+    </div>
+
+    <script>
+        function calculateHydration() {
+            // Get inputs
+            const white = parseFloat(document.getElementById('whiteFlour').value) || 0;
+            const wholeWheat = parseFloat(document.getElementById('wholeWheat').value) || 0;
+            const rye = parseFloat(document.getElementById('ryeFlour').value) || 0;
+            const water = parseFloat(document.getElementById('water').value) || 0;
+            const starter = parseFloat(document.getElementById('starter').value) || 0;
+            const otherLiquids = parseFloat(document.getElementById('otherLiquids').value) || 0;
+            
+            // Starter contribution (50/50)
+            const starterWater = starter * 0.5;
+            const starterFlour = starter * 0.5;
+            
+            const totalFlour = white + wholeWheat + rye + starterFlour;
+            const totalLiquid = water + starterWater + otherLiquids;
+            
+            let standardHydration = totalFlour > 0 ? (totalLiquid / totalFlour) * 100 : 0;
+            standardHydration = Math.round(standardHydration * 10) / 10;
+            
+            // Absorption adjustment (effective feel)
+            // White = 1.0, Whole Wheat ≈ +8%, Rye ≈ +15%
+            const adjustedFlour = white * 1.0 + wholeWheat * 1.08 + rye * 1.15 + starterFlour * 1.0;
+            let effectiveHydration = adjustedFlour > 0 ? (totalLiquid / adjustedFlour) * 100 : 0;
+            effectiveHydration = Math.round(effectiveHydration * 10) / 10;
+            
+            // Update display
+            document.getElementById('hydrationPercent').textContent = standardHydration;
+            document.getElementById('effectiveHydration').innerHTML = 
+                `Effective feel: <strong>${effectiveHydration}%</strong> (white-flour equivalent)`;
+            
+            // Label and description
+            let label = "", description = "";
+            
+            if (standardHydration < 55) {
+                label = "Very Stiff Dough";
+                description = "Dense crumb. Good for bagels or sandwich loaves.";
+            } else if (standardHydration < 65) {
+                label = "Stiff Dough";
+                description = "Tight structure. Ideal for rolls and enriched breads.";
+            } else if (standardHydration < 70) {
+                label = "Moderate Hydration";
+                description = "Versatile and forgiving — perfect for most artisan loaves.";
+            } else if (standardHydration < 78) {
+                label = "High Hydration";
+                description = "Open, airy crumb. Classic for ciabatta and sourdoughs.";
+            } else {
+                label = "Very High / Wet Dough";
+                description = "Shiny crust, big holes. Use gentle handling and long fermentation.";
+            }
+            
+            document.getElementById('hydrationLabel').textContent = label;
+            document.getElementById('description').textContent = description;
+        }
+        
+        function resetToDefaults() {
+            document.getElementById('whiteFlour').value = 400;
+            document.getElementById('wholeWheat').value = 100;
+            document.getElementById('ryeFlour').value = 0;
+            document.getElementById('water').value = 350;
+            document.getElementById('starter').value = 100;
+            document.getElementById('otherLiquids').value = 0;
+            calculateHydration();
+        }
+        
+        function loadPreset(target) {
+            // Base on 500g total flour
+            document.getElementById('whiteFlour').value = 400;
+            document.getElementById('wholeWheat').value = 100;
+            document.getElementById('ryeFlour').value = 0;
+            document.getElementById('starter').value = 100;
+            
+            const starterFlour = 50;
+            const totalFlour = 500 + starterFlour;
+            const starterWater = 50;
+            const desiredLiquid = (target / 100) * totalFlour;
+            const waterNeeded = Math.max(0, Math.round(desiredLiquid - starterWater));
+            
+            document.getElementById('water').value = waterNeeded;
+            document.getElementById('otherLiquids').value = 0;
+            calculateHydration();
+        }
+        
+        window.onload = calculateHydration;
+    </script>
+</body>
+</html>
