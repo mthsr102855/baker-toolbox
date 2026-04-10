@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🥖 Bread Dough Hydration Calculator</title>
+    <title>🥖 Dough Hydration Calculator</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap');
         
@@ -118,6 +118,14 @@
             margin: 8px 0;
         }
         
+        .dough-weight {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed #e5d5c0;
+            font-size: 1.25rem;
+            color: #5c4033;
+        }
+        
         .description {
             font-size: 1.08rem;
             color: #6b5a4a;
@@ -184,7 +192,7 @@
     <div class="container">
         <header>
             <h1>🥖 Dough Hydration Calculator</h1>
-            <p class="subtitle">Now with flour blend adjustment</p><p><a href="menu.html">MENU</a>
+            <p class="subtitle">Multi-flour support + total dough weight</p>
         </header>
         
         <div class="main-content">
@@ -245,6 +253,12 @@
                         <div class="description" id="description">
                             Versatile hydration for most artisan breads.
                         </div>
+                        
+                        <!-- New Dough Weight Section -->
+                        <div class="dough-weight" id="doughWeight">
+                            Total dough weight: <strong id="totalGrams">950</strong> g 
+                            (<strong id="totalOunces">33.5</strong> oz)
+                        </div>
                     </div>
                     
                     <div style="margin-top: 20px; font-size: 0.95rem; color: #8d6f5c; text-align: center;">
@@ -266,7 +280,7 @@
         </div>
         
         <div class="footer">
-            Real-time • Multi-flour support • Offline
+            Real-time • Multi-flour support • Total dough weight in g & oz
         </div>
     </div>
 
@@ -290,16 +304,23 @@
             let standardHydration = totalFlour > 0 ? (totalLiquid / totalFlour) * 100 : 0;
             standardHydration = Math.round(standardHydration * 10) / 10;
             
-            // Absorption adjustment (effective feel)
-            // White = 1.0, Whole Wheat ≈ +8%, Rye ≈ +15%
+            // Absorption adjustment
             const adjustedFlour = white * 1.0 + wholeWheat * 1.08 + rye * 1.15 + starterFlour * 1.0;
             let effectiveHydration = adjustedFlour > 0 ? (totalLiquid / adjustedFlour) * 100 : 0;
             effectiveHydration = Math.round(effectiveHydration * 10) / 10;
+            
+            // Total dough weight (flour + liquid)
+            const totalDoughGrams = Math.round(totalFlour + totalLiquid);
+            const totalDoughOunces = (totalDoughGrams / 28.3495).toFixed(1);
             
             // Update display
             document.getElementById('hydrationPercent').textContent = standardHydration;
             document.getElementById('effectiveHydration').innerHTML = 
                 `Effective feel: <strong>${effectiveHydration}%</strong> (white-flour equivalent)`;
+            
+            // Dough weight
+            document.getElementById('totalGrams').textContent = totalDoughGrams;
+            document.getElementById('totalOunces').textContent = totalDoughOunces;
             
             // Label and description
             let label = "", description = "";
@@ -336,7 +357,6 @@
         }
         
         function loadPreset(target) {
-            // Base on 500g total flour
             document.getElementById('whiteFlour').value = 400;
             document.getElementById('wholeWheat').value = 100;
             document.getElementById('ryeFlour').value = 0;
