@@ -129,4 +129,75 @@ function saveRecipe() {
     `Unsalted Butter: ${Math.round(56*scale)} g\n` +
     `Large Egg: ${Math.round(50*scale)} g\n` +
     `Sugar: ${Math.round(67*scale)} g\n` +
-    `Salt: ${Math.round(6*scale)} g\n`
+    `Salt: ${Math.round(6*scale)} g\n` +
+    `Bread Flour: ${Math.round(480*scale)} g\n` +
+    `Yeast: ${Math.round(7*scale)} g\n\nDough cycle → shape → bake 175-190°C`;
+  
+  const blob = new Blob([text], {type: "text/plain"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `sweet-roll_${date}.txt`;
+  a.click();
+}
+
+function loadRecipe(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const match = ev.target.result.match(/Scale:\s*([\d.]+)×/i);
+    if (match) document.getElementById("scale").value = parseFloat(match[1]);
+    calcSweetRoll();
+    document.getElementById("sweetResult").innerHTML += `<div class="saved"><strong>Loaded:</strong><pre>${ev.target.result}</pre></div>`;
+  };
+  reader.readAsText(file);
+}
+
+// ====================== HYDRATION ======================
+function calcHydration() {
+  const flour = parseFloat(document.getElementById("h_flour").value) || 500;
+  const water = parseFloat(document.getElementById("h_water").value) || 325;
+  const hydration = ((water / flour) * 100).toFixed(1);
+  document.getElementById("hydrationResult").innerHTML = `
+    <p><strong>Hydration:</strong> ${hydration}%</p>
+    <p>${hydration < 60 ? "Stiff dough" : hydration < 70 ? "Standard bread" : "High hydration / ciabatta style"}</p>
+  `;
+}
+
+// ====================== BULK FERMENTATION ======================
+function calcFermentation() {
+  const roomTemp = parseFloat(document.getElementById("temp").value) || 22;
+  const ddt = parseFloat(document.getElementById("ddt").value) || 24;
+  const timeHours = Math.max(1.5, (ddt - roomTemp) * 1.5 + 3); // rough rule of thumb
+  document.getElementById("fermResult").innerHTML = `
+    <p><strong>Estimated bulk fermentation time:</strong> ${timeHours.toFixed(1)} hours</p>
+    <p>At ${roomTemp}°C room temp → target ${ddt}°C dough temp</p>
+    <small>Adjust for your flour, starter, etc. Punch down when doubled.</small>
+  `;
+}
+
+// ====================== BAKER % ======================
+function calcPercent() {
+  const flour = parseFloat(document.getElementById("flour").value) || 480;
+  const html = `
+    <p><strong>Flour:</strong> ${flour} g (100%)</p>
+    <ul>
+      <li>Milk: ${(flour * 0.667).toFixed(0)} g (66.7%)</li>
+      <li>Butter: ${(flour * 0.117).toFixed(0)} g (11.7%)</li>
+      <li>Egg: ${(flour * 0.104).toFixed(0)} g (10.4%)</li>
+      <li>Sugar: ${(flour * 0.14).toFixed(0)} g (14%)</li>
+      <li>Salt: ${(flour * 0.0125).toFixed(0)} g (1.25%)</li>
+      <li>Yeast: ${(flour * 0.0146).toFixed(0)} g (1.46%)</li>
+    </ul>`;
+  document.getElementById("percentResult").innerHTML = html;
+}
+
+// Initialize everything
+createTabs();
+calcSweetRoll();
+calcHydration();
+calcFermentation();
+calcPercent();
+</script>
+</body>
+</html>
