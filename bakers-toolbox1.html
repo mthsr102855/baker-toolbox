@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Baker’s Tools</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body { font-family: system-ui, sans-serif; margin:0; background:#f8f1e3; color:#333; }
+  .tabs { display:flex; background:#5c4033; overflow-x:auto; }
+  .tab { padding:15px 20px; color:#fff; cursor:pointer; border:none; background:none; font-size:1.1em; }
+  .tab.active { background:#d2b48c; color:#333; font-weight:bold; }
+  .content { padding:20px; max-width:800px; margin:auto; display:none; }
+  .content.active { display:block; }
+  input, button, select { padding:10px; margin:5px 0; font-size:1em; }
+  button { background:#8b5a2b; color:white; border:none; cursor:pointer; }
+  button:hover { background:#a67b5b; }
+  .result { background:#fff; padding:15px; border-radius:8px; margin-top:15px; line-height:1.6; }
+  .saved { background:#e8d5b8; padding:10px; border-radius:6px; margin:10px 0; }
+</style>
+</head>
+<body>
+
+<div class="tabs" id="tabs"></div>
+
+<!-- ====================== HOME ====================== -->
+<div id="home" class="content active">
+  <h1>🍞 Baker’s Tools</h1>
+  <p>Single file • Offline • All by weight • Save & Reload Recipes</p>
+</div>
+
+<!-- ====================== SWEET ROLL DOUGH ====================== -->
+<div id="sweetroll" class="content">
+  <h2>Sweet Roll Dough (2 lb Osipoto BM8205)</h2>
+  
+  <label>Scale factor (1 = full 2 lb batch):</label>
+  <input type="number" id="scale" value="1" step="0.1" style="width:100px" oninput="calcSweetRoll()">
+  
+  <button onclick="calcSweetRoll()">Calculate</button>
+  <button onclick="saveRecipe()">💾 Save as Text File</button>
+  <button onclick="document.getElementById('loadFile').click()">📂 Load Recipe</button>
+  <input type="file" id="loadFile" accept=".txt" style="display:none" onchange="loadRecipe(event)">
+
+  <div id="sweetResult" class="result"></div>
+  
+  <h3>Instructions</h3>
+  <ol>
+    <li>Add ingredients in order: liquids → butter/egg → dry → yeast on top.</li>
+    <li>Select <strong>Dough</strong> cycle on your Osipoto BM8205.</li>
+    <li>Shape, final rise 30-60 min, bake 175–190°C (350–375°F) 15–25 min.</li>
+  </ol>
+</div>
+
+<!-- ====================== BAKER’S PERCENTAGE CONVERTER ====================== -->
+<div id="percent" class="content">
+  <h2>Baker’s Percentage Converter</h2>
+  <label>Flour weight (g):</label><input type="number" id="flour" value="480" oninput="calcPercent()">
+  <div id="percentResult" class="result"></div>
+</div>
+
+<script>
+// Tab system
+const tools = [
+  {id:"home", name:"Home"},
+  {id:"sweetroll", name:"Sweet Roll Dough"},
+  {id:"percent", name:"Baker %"},
+];
+
+function createTabs() {
+  const tabsDiv = document.getElementById("tabs");
+  tabsDiv.innerHTML = "";
+  tools.forEach(tool => {
+    const btn = document.createElement("button");
+    btn.className = "tab";
+    btn.textContent = tool.name;
+    btn.onclick = () => switchTab(tool.id);
+    tabsDiv.appendChild(btn);
+  });
+}
+
+function switchTab(tabId) {
+  document.querySelectorAll(".content").forEach(c => c.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  
+  document.getElementById(tabId).classList.add("active");
+  const activeTab = Array.from(document.querySelectorAll(".tab")).find(t => 
+    t.textContent === tools.find(tool => tool.id === tabId).name);
+  if (activeTab) activeTab.classList.add("active");
+}
+
+// ====================== SWEET ROLL CALCULATOR ======================
+function calcSweetRoll() {
+  const scale = parseFloat(document.getElementById("scale").value) || 1;
+  
+  const ingredients = {
+    "Milk": Math.round(320 * scale),
+    "Unsalted Butter": Math.round(56 * scale),
+    "Large Egg": Math.round(50 * scale),
+    "Sugar": Math.round(67 * scale),
+    "Salt": Math.round(6 * scale),
+    "Bread Flour": Math.round(480 * scale),
+    "Yeast (active dry)": Math.round(7 * scale)
+  };
+  
+  let html = `<h3>Ingredients (scale: ${scale}) — ${new Date().toLocaleDateString()}</h3><ul>`;
+  for (let [name, amt] of Object.entries(ingredients)) {
+    html += `<li><strong>${name}:</strong> ${amt} g</li>`;
+  }
+  html += `</ul><p><em>Copy or Save this recipe below.</em></p>`;
+  
+  document.getElementById("sweetResult").innerHTML = html;
+}
+
+// ====================== SAVE / LOAD ======================
+function saveRecipe() {
+  const scale = parseFloat(document.getElementById("scale").value) || 1;
+  const date = new Date().toISOString().slice(0,10);
+  
+  const text = `BAKER'S RECIPE - Sweet Roll Dough
+Date: ${date}
+Scale: ${scale}× (2 lb Osipoto BM8205)
+
+Milk: ${Math.round(320 * scale)} g
+Unsalted Butter: ${Math.round(56 * scale)} g
+Large Egg: ${Math.round(50 * scale)} g (≈ ${ (scale).toFixed(1) } egg)
+Sugar: ${Math.round(67 * scale)} g
+Salt: ${Math.round(6 * scale)} g
+Bread Flour: ${Math.round(480 * scale)} g
+Yeast (active dry): ${Math.round(7 * scale)} g
+
+Instructions:
+• Liquids first, yeast on top of flour
+• Dough cycle → shape → rise → bake 175-190°C
+Saved from Baker’s Tools`;
+
+  const blob = new Blob([text], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `sweet-roll-dough_${date}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function loadRecipe(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const content = e.target.result;
+    // Try to extract scale
+    const scaleMatch = content.match(/Scale:\s*([\d.]+)×/i);
+    if (scaleMatch) {
+      document.getElementById("scale").value = parseFloat(scaleMatch[1]);
+    }
+    calcSweetRoll();
+    
+    // Show loaded recipe
+    const resultDiv = document.getElementById("sweetResult");
+    resultDiv.innerHTML += `<div class="saved"><strong>✅ Loaded from file:</strong><pre style="white-space:pre-wrap;font-size:0.9em;">${content}</pre></div>`;
+  };
+  reader.readAsText(file);
+}
+
+// ====================== BAKER’S PERCENTAGE ======================
+function calcPercent() {
+  const flour = parseFloat(document.getElementById("flour").value) || 480;
+  const html = `
+    <p><strong>Flour:</strong> ${flour} g (100%)</p>
+    <p><strong>Sweet Dough Baker’s % (example):</strong></p>
+    <ul>
+      <li>Milk: ${(flour * 0.667).toFixed(0)} g (66.7%)</li>
+      <li>Butter: ${(flour * 0.117).toFixed(0)} g (11.7%)</li>
+      <li>Egg: ${(flour * 0.104).toFixed(0)} g (10.4%)</li>
+      <li>Sugar: ${(flour * 0.14).toFixed(0)} g (14%)</li>
+      <li>Salt: ${(flour * 0.0125).toFixed(0)} g (1.25%)</li>
+      <li>Yeast: ${(flour * 0.0146).toFixed(0)} g (1.46%)</li>
+    </ul>
+  `;
+  document.getElementById("percentResult").innerHTML = html;
+}
+
+// Initialize
+createTabs();
+calcSweetRoll();
+calcPercent();
+</script>
+
+</body>
+</html>
