@@ -42,7 +42,7 @@
         }
         
         .tab {
-            padding: 16px 20px;
+            padding: 16px 18px;
             cursor: pointer;
             white-space: nowrap;
             font-weight: 600;
@@ -58,11 +58,9 @@
         .tab-content { display: none; padding: 30px; }
         .tab-content.active { display: block; }
         
-        .input-group { margin-bottom: 26px; }
+        .input-group { margin-bottom: 24px; }
         label { display: block; font-weight: 600; margin-bottom: 8px; color: #4a3728; }
-        input[type="number"], input[type="text"], input[type="datetime-local"], select {
-            width: 100%; padding: 16px; border: 2px solid #e5d5c0; border-radius: 12px; font-size: 1.1rem;
-        }
+        input, select { width: 100%; padding: 16px; border: 2px solid #e5d5c0; border-radius: 12px; font-size: 1.1rem; }
         button {
             background: var(--primary); color: white; border: none; padding: 16px;
             font-size: 1.1rem; font-weight: 600; border-radius: 12px; width: 100%; margin: 10px 0;
@@ -81,66 +79,55 @@
         
         .hydration-level { font-size: 4.5rem; font-weight: 700; color: var(--primary); margin: 10px 0; }
         .dough-weight { margin-top: 20px; padding-top: 20px; border-top: 2px dashed #e5d5c0; font-size: 1.3rem; }
-        
         .info { background: #f8f1e9; padding: 20px; border-radius: 16px; margin-top: 20px; }
         
-        .footer {
-            text-align: center;
-            padding: 25px;
-            color: #8d6f5c;
-            font-size: 0.95rem;
-            border-top: 1px solid #f0e6d8;
-        }
+        .footer { text-align: center; padding: 25px; color: #8d6f5c; font-size: 0.95rem; border-top: 1px solid #f0e6d8; }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>🥖 Baker's Toolbox</h1>
-            <p>All your bread tools • One file</p>
+            <p>Complete set — all in one file</p>
         </header>
         
-        <!-- Tabs -->
         <div class="tabs">
             <div class="tab active" onclick="switchTab(0)">💧 Hydration</div>
             <div class="tab" onclick="switchTab(1)">⏱️ Timer</div>
             <div class="tab" onclick="switchTab(2)">📏 Baker's %</div>
             <div class="tab" onclick="switchTab(3)">🔪 Starter</div>
+            <div class="tab" onclick="switchTab(4)">🍞 Enriched Dough</div>
         </div>
         
-        <!-- Hydration Calculator -->
+        <!-- 0. Hydration Calculator -->
         <div class="tab-content active" id="tab0">
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px;">
                 <div>
                     <h2 style="margin-top:0;color:#5c4033;">Ingredients (grams)</h2>
                     <div class="input-group"><label>White / AP Flour</label><input type="number" id="whiteFlour" value="400" oninput="calcHydration()"></div>
-                    <div class="input-group"><label>Whole Wheat Flour</label><input type="number" id="wholeWheat" value="100" oninput="calcHydration()"></div>
-                    <div class="input-group"><label>Rye Flour</label><input type="number" id="ryeFlour" value="0" oninput="calcHydration()"></div>
+                    <div class="input-group"><label>Whole Wheat</label><input type="number" id="wholeWheat" value="100" oninput="calcHydration()"></div>
+                    <div class="input-group"><label>Rye</label><input type="number" id="ryeFlour" value="0" oninput="calcHydration()"></div>
                     <div class="input-group"><label>Water</label><input type="number" id="water" value="350" oninput="calcHydration()"></div>
-                    <div class="input-group"><label>Sourdough Starter</label><input type="number" id="starter" value="100" oninput="calcHydration()"></div>
+                    <div class="input-group"><label>Starter</label><input type="number" id="starter" value="100" oninput="calcHydration()"></div>
                     <div class="input-group"><label>Other Liquids</label><input type="number" id="otherLiquids" value="0" oninput="calcHydration()"></div>
                     <button onclick="resetHydration()">Reset to Defaults</button>
                 </div>
-                
                 <div>
                     <div class="result">
                         <div style="font-size:1.3rem;font-weight:600;">Standard Hydration</div>
                         <div class="hydration-level" id="hydrationPercent">70</div>
                         <div id="effectiveHydration" style="font-size:1.4rem;color:#c2410c;margin:8px 0;"></div>
                         <div id="hydrationLabel" style="font-size:1.35rem;color:#d97757;font-weight:600;">Moderate Hydration</div>
-                        <div id="description" style="color:#6b5a4a;margin:15px 0;">Versatile hydration for most artisan breads.</div>
-                        
+                        <div id="description" style="color:#6b5a4a;">Versatile for artisan breads.</div>
                         <div class="dough-weight">
-                            Total dough weight:<br>
-                            <strong id="totalGrams">950</strong> g 
-                            (<strong id="totalOunces">33.5</strong> oz)
+                            Total dough: <strong id="totalGrams">950</strong> g (<strong id="totalOunces">33.5</strong> oz)
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- Bulk Fermentation Timer -->
+        <!-- 1. Bulk Fermentation Timer -->
         <div class="tab-content" id="tab1">
             <h2 style="color:#5c4033;">Bulk Fermentation Timer</h2>
             <div class="input-group"><label>Dough Temperature (°F)</label><input type="number" id="temp" value="76" step="0.1" oninput="estimateTime()"></div>
@@ -148,7 +135,7 @@
                 <select id="rise" onchange="estimateTime()">
                     <option value="50">50% (mild)</option>
                     <option value="75" selected>75% (balanced)</option>
-                    <option value="100">100% (strong flavor)</option>
+                    <option value="100">100% (strong)</option>
                 </select>
             </div>
             <button onclick="startTimer()">Start Timer</button>
@@ -161,41 +148,74 @@
             </div>
         </div>
         
-        <!-- Baker's Percentage -->
+        <!-- 2. Baker's Percentage -->
         <div class="tab-content" id="tab2">
             <h2 style="color:#5c4033;">Baker’s Percentage Converter</h2>
             <div class="input-group"><label>Flour (g)</label><input type="number" id="flour" value="500" oninput="calcBaker()"></div>
             <div class="input-group"><label>Water %</label><input type="number" id="waterPct" value="70" oninput="calcBaker()"></div>
             <div class="input-group"><label>Salt %</label><input type="number" id="saltPct" value="2" oninput="calcBaker()"></div>
             <div class="input-group"><label>Starter %</label><input type="number" id="starterPct" value="20" oninput="calcBaker()"></div>
-            <button onclick="calcBaker()">Calculate</button>
+            <button onclick="calcBaker()">Calculate Weights</button>
             <div class="result" id="bakerResult"></div>
         </div>
         
-        <!-- Starter Tracker -->
+        <!-- 3. Starter Tracker -->
         <div class="tab-content" id="tab3">
             <h2 style="color:#5c4033;">Sourdough Starter Tracker</h2>
             <div class="input-group"><label>Date & Time</label><input type="datetime-local" id="feedDate"></div>
-            <div class="input-group"><label>Ratio (e.g. 1:1:1)</label><input type="text" id="ratio" value="1:1:1"></div>
-            <div class="input-group"><label>Notes</label><input type="text" id="notes" placeholder="Doubled in 6 hrs, nice bubbles"></div>
+            <div class="input-group"><label>Ratio</label><input type="text" id="ratio" value="1:1:1"></div>
+            <div class="input-group"><label>Notes</label><input type="text" id="notes" placeholder="Doubled nicely, great bubbles"></div>
             <button onclick="addLog()">Log Feeding</button>
             <button onclick="clearLogs()">Clear All Logs</button>
             <div id="logArea" class="info"></div>
         </div>
         
+        <!-- 4. Enriched Dough (Sweet Rolls + Brioche) -->
+        <div class="tab-content" id="tab4">
+            <h2 style="color:#5c4033;">🍞 Enriched Dough Calculator</h2>
+            
+            <div class="input-group">
+                <label>Dough Style</label>
+                <select id="enrichedStyle" onchange="loadEnrichedPreset()">
+                    <option value="cinnamon">Cinnamon Rolls</option>
+                    <option value="brioche" selected>Brioche (Classic)</option>
+                    <option value="rich-brioche">Rich Brioche (Extra Buttery)</option>
+                    <option value="sticky">Sticky Buns</option>
+                    <option value="milk-bread">Japanese Milk Bread</option>
+                </select>
+            </div>
+            
+            <div class="input-group"><label>Flour (g)</label><input type="number" id="enFlour" value="500" oninput="calcEnriched()"></div>
+            <div class="input-group"><label>Butter (%)</label><input type="number" id="enButter" value="25" oninput="calcEnriched()"></div>
+            <div class="input-group"><label>Sugar (%)</label><input type="number" id="enSugar" value="8" oninput="calcEnriched()"></div>
+            <div class="input-group"><label>Eggs (large)</label><input type="number" id="enEggs" value="3" oninput="calcEnriched()"></div>
+            <div class="input-group"><label>Milk (%)</label><input type="number" id="enMilk" value="35" oninput="calcEnriched()"></div>
+            <div class="input-group"><label>Yeast (%)</label><input type="number" id="enYeast" value="2" oninput="calcEnriched()"></div>
+            
+            <button onclick="calcEnriched()">Calculate Dough</button>
+            
+            <div class="result" id="enrichedResult"></div>
+            
+            <div class="info">
+                <strong>Brioche Tips:</strong><br>
+                • Classic: 20-30% butter<br>
+                • Rich: 40%+ butter for luxurious texture<br>
+                • Use cold cubed butter for best results.
+            </div>
+        </div>
+        
         <div class="footer">
-            All tools work completely offline • Add to Home Screen for quick access
+            All tools work completely offline • One single HTML file
         </div>
     </div>
 
     <script>
-        // Tab control
         function switchTab(n) {
             document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i===n));
             document.querySelectorAll('.tab-content').forEach((c,i) => c.classList.toggle('active', i===n));
         }
         
-        // ==================== HYDRATION ====================
+        // Hydration
         function calcHydration() {
             const white = parseFloat(document.getElementById('whiteFlour').value) || 0;
             const ww = parseFloat(document.getElementById('wholeWheat').value) || 0;
@@ -206,7 +226,6 @@
             
             const starterW = starter * 0.5;
             const starterF = starter * 0.5;
-            
             const totalFlour = white + ww + rye + starterF;
             const totalLiquid = water + starterW + other;
             
@@ -232,29 +251,26 @@
             calcHydration();
         }
         
-        // ==================== FERMENTATION TIMER ====================
+        // Fermentation Timer
         let timerInterval = null;
         function estimateTime() {
             const temp = parseFloat(document.getElementById('temp').value) || 76;
             const rise = parseFloat(document.getElementById('rise').value);
             const hours = (rise / (temp > 78 ? 28 : temp > 73 ? 20 : 14)).toFixed(1);
-            document.getElementById('estimate').innerHTML = `<strong>Estimated bulk time:</strong><br>${hours} hours`;
+            document.getElementById('estimate').innerHTML = `<strong>Estimated time:</strong><br>${hours} hours`;
             document.getElementById('estimate').style.display = 'block';
         }
         
         function startTimer() {
             estimateTime();
             document.getElementById('timerArea').style.display = 'block';
-            let timeLeft = 60 * 60 * 3; // 3 hours
+            let timeLeft = 60 * 60 * 3;
             timerInterval = setInterval(() => {
                 timeLeft--;
                 const m = Math.floor(timeLeft/60);
                 const s = timeLeft % 60;
                 document.getElementById('countdown').textContent = `${m}:${s<10?'0':''}${s}`;
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    alert("Bulk fermentation complete! 🥖");
-                }
+                if (timeLeft <= 0) { clearInterval(timerInterval); alert("Bulk fermentation complete!"); }
             }, 1000);
         }
         
@@ -263,7 +279,7 @@
             document.getElementById('timerArea').style.display = 'none';
         }
         
-        // ==================== BAKER'S PERCENTAGE ====================
+        // Baker's Percentage
         function calcBaker() {
             const flour = parseFloat(document.getElementById('flour').value) || 0;
             const w = parseFloat(document.getElementById('waterPct').value) || 0;
@@ -271,14 +287,14 @@
             const st = parseFloat(document.getElementById('starterPct').value) || 0;
             
             let html = `<strong>For ${flour}g flour:</strong><br>`;
-            html += `Water → ${Math.round(flour * w / 100)} g<br>`;
-            html += `Salt → ${Math.round(flour * s / 100)} g<br>`;
-            html += `Starter → ${Math.round(flour * st / 100)} g<br>`;
-            html += `<small>Total dough ≈ ${Math.round(flour * (1 + (w + s + st)/100))} g</small>`;
+            html += `Water: ${Math.round(flour * w / 100)}g<br>`;
+            html += `Salt: ${Math.round(flour * s / 100)}g<br>`;
+            html += `Starter: ${Math.round(flour * st / 100)}g<br>`;
+            html += `<small>Total dough ≈ ${Math.round(flour * (1 + (w + s + st)/100))}g</small>`;
             document.getElementById('bakerResult').innerHTML = html;
         }
         
-        // ==================== STARTER TRACKER ====================
+        // Starter Tracker
         function addLog() {
             const date = document.getElementById('feedDate').value || new Date().toLocaleString();
             const ratio = document.getElementById('ratio').value;
@@ -302,17 +318,50 @@
         }
         
         function clearLogs() {
-            if (confirm("Clear all starter logs?")) {
+            if (confirm("Clear all logs?")) {
                 localStorage.removeItem('starterLogs');
                 loadLogs();
             }
         }
         
+        // Enriched Dough (Sweet Rolls + Brioche)
+        function loadEnrichedPreset() {
+            const style = document.getElementById('enrichedStyle').value;
+            if (style === "brioche") {
+                document.getElementById('enButter').value = 25; document.getElementById('enSugar').value = 8;
+                document.getElementById('enEggs').value = 3; document.getElementById('enMilk').value = 35;
+            } else if (style === "rich-brioche") {
+                document.getElementById('enButter').value = 45; document.getElementById('enSugar').value = 10;
+                document.getElementById('enEggs').value = 4; document.getElementById('enMilk').value = 30;
+            } else if (style === "cinnamon") {
+                document.getElementById('enButter').value = 12; document.getElementById('enSugar').value = 12;
+                document.getElementById('enEggs').value = 2; document.getElementById('enMilk').value = 40;
+            }
+            calcEnriched();
+        }
+        
+        function calcEnriched() {
+            const flour = parseFloat(document.getElementById('enFlour').value) || 500;
+            const butter = Math.round(flour * (parseFloat(document.getElementById('enButter').value)||0)/100);
+            const sugar = Math.round(flour * (parseFloat(document.getElementById('enSugar').value)||0)/100);
+            const eggs = parseFloat(document.getElementById('enEggs').value)||0;
+            const eggWt = Math.round(eggs * 50);
+            const milk = Math.round(flour * (parseFloat(document.getElementById('enMilk').value)||0)/100);
+            const yeast = Math.round(flour * (parseFloat(document.getElementById('enYeast').value)||0)/100);
+            
+            const total = flour + butter + sugar + eggWt + milk + yeast;
+            
+            let html = `<strong>${document.getElementById('enrichedStyle').options[document.getElementById('enrichedStyle').selectedIndex].text}</strong><br><br>`;
+            html += `Butter: ${butter}g<br>Sugar: ${sugar}g<br>Eggs: ${eggs} (${eggWt}g)<br>Milk: ${milk}g<br>Yeast: ${yeast}g<br><br>`;
+            html += `<strong>Total dough: ${total} g</strong> (${(total/28.3495).toFixed(1)} oz)`;
+            
+            document.getElementById('enrichedResult').innerHTML = html;
+        }
+        
         // Initialize
         window.onload = () => {
             calcHydration();
-            estimateTime();
-            calcBaker();
+            loadEnrichedPreset();
             document.getElementById('feedDate').value = new Date().toISOString().slice(0,16);
             loadLogs();
         };
