@@ -7,18 +7,13 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap');
         
-        :root {
-            --primary: #d97757;
-            --accent: #8d5524;
-        }
+        :root { --primary: #d97757; --accent: #8d5524; }
         
         body {
             font-family: 'Inter', system_ui, sans-serif;
             background: linear-gradient(135deg, #f8f1e9 0%, #f4e6d8 100%);
-            margin: 0;
-            padding: 20px;
+            margin: 0; padding: 20px;
             color: #3c2f2f;
-            line-height: 1.6;
         }
         
         .container {
@@ -37,28 +32,22 @@
             text-align: center;
         }
         
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.8rem;
-            margin: 0 0 10px 0;
-        }
+        h1 { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin: 0 0 10px 0; }
         
         .tabs {
             display: flex;
             background: #f8f1e9;
             overflow-x: auto;
-            padding: 0 10px;
-            scrollbar-width: none;
+            padding: 0 5px;
         }
         
         .tab {
-            padding: 16px 24px;
+            padding: 16px 20px;
             cursor: pointer;
             white-space: nowrap;
             font-weight: 600;
             color: #8d6f5c;
             border-bottom: 4px solid transparent;
-            transition: all 0.3s;
         }
         
         .tab.active {
@@ -66,54 +55,34 @@
             border-bottom: 4px solid var(--primary);
         }
         
-        .tab-content {
-            display: none;
-            padding: 30px;
-        }
+        .tab-content { display: none; padding: 30px; }
+        .tab-content.active { display: block; }
         
-        .tab-content.active {
-            display: block;
+        .input-group { margin-bottom: 26px; }
+        label { display: block; font-weight: 600; margin-bottom: 8px; color: #4a3728; }
+        input[type="number"], input[type="text"], input[type="datetime-local"], select {
+            width: 100%; padding: 16px; border: 2px solid #e5d5c0; border-radius: 12px; font-size: 1.1rem;
         }
-        
-        .input-group { margin-bottom: 20px; }
-        label { display: block; font-weight: 600; margin-bottom: 8px; color: #4a3728; font-size: 1.05rem; }
-        input[type="number"], select { width: 100%; padding: 16px 18px; border: 2px solid #e5d5c0; border-radius: 12px; font-size: 1.15rem; box-sizing: border-box; }
-        input[type="number"]:focus, select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(217, 119, 87, 0.15); }
-        button { background: var(--primary); color: white; border: none; padding: 16px; font-size: 1.1rem; font-weight: 600; border-radius: 12px; width: 100%; margin-top: 12px; cursor: pointer; }
+        button {
+            background: var(--primary); color: white; border: none; padding: 16px;
+            font-size: 1.1rem; font-weight: 600; border-radius: 12px; width: 100%; margin: 10px 0;
+            cursor: pointer;
+        }
         button:hover { background: #c2410c; }
         
         .result {
             background: #fffaf0;
             border: 3px solid var(--primary);
             border-radius: 16px;
-            padding: 24px;
+            padding: 30px;
+            text-align: center;
             margin-top: 20px;
         }
         
-        .ingredient-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        .ingredient-row label {
-            width: 220px;
-            flex-shrink: 0;
-        }
+        .hydration-level { font-size: 4.5rem; font-weight: 700; color: var(--primary); margin: 10px 0; }
+        .dough-weight { margin-top: 20px; padding-top: 20px; border-top: 2px dashed #e5d5c0; font-size: 1.3rem; }
         
-        .dough-stats {
-            margin-top: 24px;
-            padding-top: 20px;
-            border-top: 2px dashed #e5d5c0;
-            font-size: 1.25rem;
-            color: #5c4033;
-        }
-        
-        .hydration-level { font-size: 3.5rem; font-weight: 700; color: var(--primary); margin: 8px 0; line-height: 1; }
-        
-        .saved { background: #f0e6d8; padding: 16px; border-radius: 12px; margin-top: 20px; }
-        
-        .info { background: #f8f1e9; padding: 26px; border-radius: 16px; margin-top: 30px; }
+        .info { background: #f8f1e9; padding: 20px; border-radius: 16px; margin-top: 20px; }
         
         .footer {
             text-align: center;
@@ -128,82 +97,42 @@
     <div class="container">
         <header>
             <h1>🥖 Baker's Toolbox</h1>
-            <p>All your bread tools in one place</p>
+            <p>All your bread tools • One file</p>
         </header>
         
+        <!-- Tabs -->
         <div class="tabs">
-            <div class="tab active" onclick="switchTab(0)">Sweet Roll Dough</div>
-            <div class="tab" onclick="switchTab(1)">Hydration</div>
-            <div class="tab" onclick="switchTab(2)">Fermentation Timer</div>
-            <div class="tab" onclick="switchTab(3)">Baker's %</div>
-            <div class="tab" onclick="switchTab(4)">Starter Tracker</div>
+            <div class="tab active" onclick="switchTab(0)">💧 Hydration</div>
+            <div class="tab" onclick="switchTab(1)">⏱️ Timer</div>
+            <div class="tab" onclick="switchTab(2)">📏 Baker's %</div>
+            <div class="tab" onclick="switchTab(3)">🔪 Starter</div>
         </div>
         
-        <!-- ====================== SWEET ROLL TAB ====================== -->
+        <!-- Hydration Calculator -->
         <div class="tab-content active" id="tab0">
-            <h2 style="margin-top:0; color:#5c4033;">Sweet Roll Dough (2 lb Osipoto BM8205)</h2>
-            
-            <div class="input-group">
-                <label>Scale factor (1 = full batch)</label>
-                <input type="number" id="scale" value="1" step="0.1" oninput="applyScale()">
-            </div>
-            
-            <button onclick="applyScale()">Apply Scale</button>
-            <button onclick="saveRecipe()">💾 Save as Text File</button>
-            <button onclick="document.getElementById('loadFile').click()">📂 Load Recipe</button>
-            <input type="file" id="loadFile" accept=".txt" style="display:none" onchange="loadRecipe(event)">
-            
-            <div id="sweetResult" class="result"></div>
-            
-            <div class="info">
-                <strong>Instructions</strong><br>
-                1. Edit any ingredient • 2. Liquids first → butter/egg → dry → yeast on top<br>
-                3. Dough cycle on Osipoto BM8205 • 4. Shape, rise 30-60 min, bake 175–190°C
-            </div>
-        </div>
-        
-        <!-- ====================== HYDRATION TAB ====================== -->
-        <div class="tab-content" id="tab1">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px;">
                 <div>
-                    <h2 style="margin-top:0; color:#5c4033;">Ingredients (grams)</h2>
-                    <div class="input-group">
-                        <label for="whiteFlour">White / Bread / AP Flour</label>
-                        <input type="number" id="whiteFlour" value="400" oninput="calcHydration()">
-                    </div>
-                    <div class="input-group">
-                        <label for="wholeWheat">Whole Wheat Flour</label>
-                        <input type="number" id="wholeWheat" value="100" oninput="calcHydration()">
-                    </div>
-                    <div class="input-group">
-                        <label for="ryeFlour">Rye Flour</label>
-                        <input type="number" id="ryeFlour" value="0" oninput="calcHydration()">
-                    </div>
-                    <div class="input-group">
-                        <label for="water">Water</label>
-                        <input type="number" id="water" value="350" oninput="calcHydration()">
-                    </div>
-                    <div class="input-group">
-                        <label for="starter">Sourdough Starter</label>
-                        <input type="number" id="starter" value="100" oninput="calcHydration()">
-                    </div>
-                    <div class="input-group">
-                        <label for="otherLiquids">Other Liquids</label>
-                        <input type="number" id="otherLiquids" value="0" oninput="calcHydration()">
-                    </div>
-                    <button onclick="resetHydration()">Reset</button>
+                    <h2 style="margin-top:0;color:#5c4033;">Ingredients (grams)</h2>
+                    <div class="input-group"><label>White / AP Flour</label><input type="number" id="whiteFlour" value="400" oninput="calcHydration()"></div>
+                    <div class="input-group"><label>Whole Wheat Flour</label><input type="number" id="wholeWheat" value="100" oninput="calcHydration()"></div>
+                    <div class="input-group"><label>Rye Flour</label><input type="number" id="ryeFlour" value="0" oninput="calcHydration()"></div>
+                    <div class="input-group"><label>Water</label><input type="number" id="water" value="350" oninput="calcHydration()"></div>
+                    <div class="input-group"><label>Sourdough Starter</label><input type="number" id="starter" value="100" oninput="calcHydration()"></div>
+                    <div class="input-group"><label>Other Liquids</label><input type="number" id="otherLiquids" value="0" oninput="calcHydration()"></div>
+                    <button onclick="resetHydration()">Reset to Defaults</button>
                 </div>
                 
                 <div>
                     <div class="result">
-                        <div style="font-size:1.35rem; font-weight:600;">Standard Hydration</div>
+                        <div style="font-size:1.3rem;font-weight:600;">Standard Hydration</div>
                         <div class="hydration-level" id="hydrationPercent">70</div>
-                        <div class="effective" id="effectiveHydration"></div>
-                        <div style="font-size:1.35rem; color:#d97757; font-weight:600; margin:12px 0;" id="hydrationLabel">Moderate Hydration</div>
-                        <div id="description" style="color:#6b5a4a;">Versatile hydration for most artisan breads.</div>
+                        <div id="effectiveHydration" style="font-size:1.4rem;color:#c2410c;margin:8px 0;"></div>
+                        <div id="hydrationLabel" style="font-size:1.35rem;color:#d97757;font-weight:600;">Moderate Hydration</div>
+                        <div id="description" style="color:#6b5a4a;margin:15px 0;">Versatile hydration for most artisan breads.</div>
                         
-                        <div class="dough-weight" id="doughWeight">
-                            Total dough: <strong id="totalGrams">950</strong> g 
+                        <div class="dough-weight">
+                            Total dough weight:<br>
+                            <strong id="totalGrams">950</strong> g 
                             (<strong id="totalOunces">33.5</strong> oz)
                         </div>
                     </div>
@@ -211,205 +140,181 @@
             </div>
         </div>
         
-        <!-- ====================== FERMENTATION TIMER ====================== -->
-        <div class="tab-content" id="tab2">
+        <!-- Bulk Fermentation Timer -->
+        <div class="tab-content" id="tab1">
             <h2 style="color:#5c4033;">Bulk Fermentation Timer</h2>
-            <div class="input-group">
-                <label>Dough Temperature (°F)</label>
-                <input type="number" id="temp" value="76" step="0.1" oninput="estimateTime()">
-            </div>
-            <div class="input-group">
-                <label>Desired Rise (%)</label>
+            <div class="input-group"><label>Dough Temperature (°F)</label><input type="number" id="temp" value="76" step="0.1" oninput="estimateTime()"></div>
+            <div class="input-group"><label>Desired Rise</label>
                 <select id="rise" onchange="estimateTime()">
-                    <option value="50">50% — mild flavor</option>
-                    <option value="75" selected>75% — balanced</option>
-                    <option value="100">100% — strong flavor</option>
+                    <option value="50">50% (mild)</option>
+                    <option value="75" selected>75% (balanced)</option>
+                    <option value="100">100% (strong flavor)</option>
                 </select>
             </div>
-            <button onclick="startFermentTimer()">Start Timer</button>
+            <button onclick="startTimer()">Start Timer</button>
             
             <div id="estimate" class="result" style="display:none;"></div>
-            <div id="timerArea" style="display:none; text-align:center; margin-top:20px;">
-                <div id="countdown" style="font-size:4rem; font-weight:700; color:var(--primary);">00:00</div>
-                <button onclick="stopFermentTimer()">Stop Timer</button>
+            
+            <div id="timerArea" style="display:none; text-align:center; margin-top:30px;">
+                <div id="countdown" style="font-size:4.5rem; font-weight:700; color:var(--primary);">45:00</div>
+                <button onclick="stopTimer()">Stop Timer</button>
             </div>
         </div>
         
-        <!-- ====================== BAKER'S % ====================== -->
-        <div class="tab-content" id="tab3">
+        <!-- Baker's Percentage -->
+        <div class="tab-content" id="tab2">
             <h2 style="color:#5c4033;">Baker’s Percentage Converter</h2>
-            <div class="input-group">
-                <label>Flour weight (g)</label>
-                <input type="number" id="flourPct" value="500" oninput="calcBakerPct()">
-            </div>
-            <div class="input-group">
-                <label>Water %</label>
-                <input type="number" id="waterPct" value="70" oninput="calcBakerPct()">
-            </div>
-            <div class="input-group">
-                <label>Salt %</label>
-                <input type="number" id="saltPct" value="2" oninput="calcBakerPct()">
-            </div>
-            <div class="input-group">
-                <label>Starter %</label>
-                <input type="number" id="starterPct" value="20" oninput="calcBakerPct()">
-            </div>
-            <button onclick="calcBakerPct()">Calculate Weights</button>
+            <div class="input-group"><label>Flour (g)</label><input type="number" id="flour" value="500" oninput="calcBaker()"></div>
+            <div class="input-group"><label>Water %</label><input type="number" id="waterPct" value="70" oninput="calcBaker()"></div>
+            <div class="input-group"><label>Salt %</label><input type="number" id="saltPct" value="2" oninput="calcBaker()"></div>
+            <div class="input-group"><label>Starter %</label><input type="number" id="starterPct" value="20" oninput="calcBaker()"></div>
+            <button onclick="calcBaker()">Calculate</button>
             <div class="result" id="bakerResult"></div>
         </div>
         
-        <!-- ====================== STARTER TRACKER ====================== -->
-        <div class="tab-content" id="tab4">
+        <!-- Starter Tracker -->
+        <div class="tab-content" id="tab3">
             <h2 style="color:#5c4033;">Sourdough Starter Tracker</h2>
-            <div class="input-group">
-                <label>Date & Time</label>
-                <input type="datetime-local" id="feedDate">
-            </div>
-            <div class="input-group">
-                <label>Feeding Ratio</label>
-                <input type="text" id="ratio" value="1:1:1">
-            </div>
-            <div class="input-group">
-                <label>Notes</label>
-                <input type="text" id="notes" placeholder="Doubled nicely, great bubbles">
-            </div>
-            <button onclick="addFeeding()">Log Feeding</button>
-            <button onclick="clearFeedings()">Clear All Logs</button>
-            <div id="feedingLog" class="info"></div>
+            <div class="input-group"><label>Date & Time</label><input type="datetime-local" id="feedDate"></div>
+            <div class="input-group"><label>Ratio (e.g. 1:1:1)</label><input type="text" id="ratio" value="1:1:1"></div>
+            <div class="input-group"><label>Notes</label><input type="text" id="notes" placeholder="Doubled in 6 hrs, nice bubbles"></div>
+            <button onclick="addLog()">Log Feeding</button>
+            <button onclick="clearLogs()">Clear All Logs</button>
+            <div id="logArea" class="info"></div>
         </div>
         
         <div class="footer">
-            All tools work offline • Tap Share → Add to Home Screen for quick access
+            All tools work completely offline • Add to Home Screen for quick access
         </div>
     </div>
 
     <script>
-        // ====================== SWEET ROLL WITH HYDRATION & WEIGHT ======================
-        let currentIngredients = {
-            "Milk": 320, "Unsalted Butter": 56, "Large Egg": 50,
-            "Sugar": 67, "Salt": 6, "Bread Flour": 480, "Yeast (active dry)": 7
-        };
-
-        function renderSweetRoll() {
-            let totalFlour = currentIngredients["Bread Flour"] || 0;
-            let totalLiquid = currentIngredients["Milk"] + (currentIngredients["Large Egg"] * 0.75);
-            let hydration = totalFlour > 0 ? Math.round((totalLiquid / totalFlour) * 100) : 0;
-            let totalDough = Object.values(currentIngredients).reduce((a, b) => a + b, 0);
-            let totalOz = (totalDough / 28.3495).toFixed(1);
-
-            let html = `<h3 style="margin-top:0;">Editable Ingredients</h3>`;
-            for (let [name, amt] of Object.entries(currentIngredients)) {
-                html += `<div class="ingredient-row"><label>${name} (g)</label><input type="number" value="${amt}" data-name="${name}" onchange="updateIngredient(this)"></div>`;
-            }
-            
-            html += `
-                <div class="dough-stats">
-                    <div><strong>Hydration:</strong> <span class="hydration-level">${hydration}%</span></div>
-                    <div><strong>Total Dough:</strong> ${totalDough} g (${totalOz} oz)</div>
-                </div>`;
-            document.getElementById("sweetResult").innerHTML = html;
-        }
-
-        function updateIngredient(input) {
-            const name = input.getAttribute("data-name");
-            currentIngredients[name] = parseFloat(input.value) || 0;
-            renderSweetRoll();
-        }
-
-        function applyScale() {
-            const scale = parseFloat(document.getElementById("scale").value) || 1;
-            currentIngredients = {
-                "Milk": Math.round(320 * scale),
-                "Unsalted Butter": Math.round(56 * scale),
-                "Large Egg": Math.round(50 * scale),
-                "Sugar": Math.round(67 * scale),
-                "Salt": Math.round(6 * scale),
-                "Bread Flour": Math.round(480 * scale),
-                "Yeast (active dry)": Math.round(7 * scale)
-            };
-            renderSweetRoll();
-        }
-
-        function saveRecipe() {
-            const date = new Date().toISOString().slice(0,10);
-            let text = `Sweet Roll Dough - Osipoto BM8205\nDate: ${date}\n\n`;
-            for (let [name, amt] of Object.entries(currentIngredients)) text += `${name}: ${amt} g\n`;
-            text += `\nTotal: ${Object.values(currentIngredients).reduce((a,b)=>a+b,0)} g`;
-            const blob = new Blob([text], {type: "text/plain"});
-            const a = document.createElement("a");
-            a.href = URL.createObjectURL(blob);
-            a.download = `sweet-roll_${date}.txt`;
-            a.click();
-        }
-
-        function loadRecipe(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(ev) {
-                const lines = ev.target.result.split("\n");
-                lines.forEach(line => {
-                    const match = line.match(/(.+?):\s*(\d+)\s*g/i);
-                    if (match) {
-                        const name = match[1].trim();
-                        if (currentIngredients.hasOwnProperty(name)) currentIngredients[name] = parseFloat(match[2]);
-                    }
-                });
-                renderSweetRoll();
-            };
-            reader.readAsText(file);
-        }
-
-        // Tab switching
+        // Tab control
         function switchTab(n) {
-            document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === n));
-            document.querySelectorAll('.tab-content').forEach((c, i) => c.classList.toggle('active', i === n));
+            document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i===n));
+            document.querySelectorAll('.tab-content').forEach((c,i) => c.classList.toggle('active', i===n));
         }
-
-        // ====================== ORIGINAL FUNCTIONS (unchanged) ======================
-        function calcHydration() { /* your original hydration code */ 
+        
+        // ==================== HYDRATION ====================
+        function calcHydration() {
             const white = parseFloat(document.getElementById('whiteFlour').value) || 0;
-            const wholeWheat = parseFloat(document.getElementById('wholeWheat').value) || 0;
+            const ww = parseFloat(document.getElementById('wholeWheat').value) || 0;
             const rye = parseFloat(document.getElementById('ryeFlour').value) || 0;
             const water = parseFloat(document.getElementById('water').value) || 0;
             const starter = parseFloat(document.getElementById('starter').value) || 0;
             const other = parseFloat(document.getElementById('otherLiquids').value) || 0;
             
-            const starterWater = starter * 0.5;
-            const starterFlour = starter * 0.5;
-            const totalFlour = white + wholeWheat + rye + starterFlour;
-            const totalLiquid = water + starterWater + other;
+            const starterW = starter * 0.5;
+            const starterF = starter * 0.5;
             
-            let hydration = totalFlour > 0 ? Math.round((totalLiquid / totalFlour) * 1000) / 10 : 0;
-            const totalGrams = Math.round(totalFlour + totalLiquid);
-            const totalOunces = (totalGrams / 28.3495).toFixed(1);
+            const totalFlour = white + ww + rye + starterF;
+            const totalLiquid = water + starterW + other;
+            
+            const hydration = totalFlour ? Math.round((totalLiquid / totalFlour) * 1000) / 10 : 0;
+            const effective = totalFlour ? Math.round((totalLiquid / (white + ww*1.08 + rye*1.15 + starterF)) * 1000) / 10 : 0;
+            
+            const totalG = Math.round(totalFlour + totalLiquid);
+            const totalOz = (totalG / 28.3495).toFixed(1);
             
             document.getElementById('hydrationPercent').textContent = hydration;
-            document.getElementById('totalGrams').textContent = totalGrams;
-            document.getElementById('totalOunces').textContent = totalOunces;
+            document.getElementById('effectiveHydration').innerHTML = `Effective feel: <strong>${effective}%</strong>`;
+            document.getElementById('totalGrams').textContent = totalG;
+            document.getElementById('totalOunces').textContent = totalOz;
         }
-        function resetHydration() { /* your original reset */ 
-            document.getElementById('whiteFlour').value = 400; document.getElementById('wholeWheat').value = 100;
-            document.getElementById('ryeFlour').value = 0; document.getElementById('water').value = 350;
-            document.getElementById('starter').value = 100; document.getElementById('otherLiquids').value = 0;
+        
+        function resetHydration() {
+            document.getElementById('whiteFlour').value = 400;
+            document.getElementById('wholeWheat').value = 100;
+            document.getElementById('ryeFlour').value = 0;
+            document.getElementById('water').value = 350;
+            document.getElementById('starter').value = 100;
+            document.getElementById('otherLiquids').value = 0;
             calcHydration();
         }
-        function estimateTime() { /* your original */ 
+        
+        // ==================== FERMENTATION TIMER ====================
+        let timerInterval = null;
+        function estimateTime() {
             const temp = parseFloat(document.getElementById('temp').value) || 76;
             const rise = parseFloat(document.getElementById('rise').value);
-            let hours = rise / (temp > 78 ? 25 : temp > 74 ? 18 : 12);
-            document.getElementById('estimate').innerHTML = `<strong>Estimated time:</strong> ${hours.toFixed(1)} hours`;
+            const hours = (rise / (temp > 78 ? 28 : temp > 73 ? 20 : 14)).toFixed(1);
+            document.getElementById('estimate').innerHTML = `<strong>Estimated bulk time:</strong><br>${hours} hours`;
             document.getElementById('estimate').style.display = 'block';
         }
-        // (Fermentation timer, Baker's %, Starter Tracker functions remain as in your original code)
-
+        
+        function startTimer() {
+            estimateTime();
+            document.getElementById('timerArea').style.display = 'block';
+            let timeLeft = 60 * 60 * 3; // 3 hours
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                const m = Math.floor(timeLeft/60);
+                const s = timeLeft % 60;
+                document.getElementById('countdown').textContent = `${m}:${s<10?'0':''}${s}`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Bulk fermentation complete! 🥖");
+                }
+            }, 1000);
+        }
+        
+        function stopTimer() {
+            clearInterval(timerInterval);
+            document.getElementById('timerArea').style.display = 'none';
+        }
+        
+        // ==================== BAKER'S PERCENTAGE ====================
+        function calcBaker() {
+            const flour = parseFloat(document.getElementById('flour').value) || 0;
+            const w = parseFloat(document.getElementById('waterPct').value) || 0;
+            const s = parseFloat(document.getElementById('saltPct').value) || 0;
+            const st = parseFloat(document.getElementById('starterPct').value) || 0;
+            
+            let html = `<strong>For ${flour}g flour:</strong><br>`;
+            html += `Water → ${Math.round(flour * w / 100)} g<br>`;
+            html += `Salt → ${Math.round(flour * s / 100)} g<br>`;
+            html += `Starter → ${Math.round(flour * st / 100)} g<br>`;
+            html += `<small>Total dough ≈ ${Math.round(flour * (1 + (w + s + st)/100))} g</small>`;
+            document.getElementById('bakerResult').innerHTML = html;
+        }
+        
+        // ==================== STARTER TRACKER ====================
+        function addLog() {
+            const date = document.getElementById('feedDate').value || new Date().toLocaleString();
+            const ratio = document.getElementById('ratio').value;
+            const notes = document.getElementById('notes').value;
+            
+            let logs = JSON.parse(localStorage.getItem('starterLogs') || '[]');
+            logs.push({date, ratio, notes});
+            localStorage.setItem('starterLogs', JSON.stringify(logs));
+            loadLogs();
+        }
+        
+        function loadLogs() {
+            const logs = JSON.parse(localStorage.getItem('starterLogs') || '[]');
+            let html = '<h3>Feeding History</h3>';
+            logs.reverse().forEach(l => {
+                html += `<div style="background:#fffaf0;padding:15px;margin:10px 0;border-radius:12px;">
+                    <strong>${l.date}</strong><br>Ratio: ${l.ratio}<br>${l.notes}
+                </div>`;
+            });
+            document.getElementById('logArea').innerHTML = html || '<p>No logs yet.</p>';
+        }
+        
+        function clearLogs() {
+            if (confirm("Clear all starter logs?")) {
+                localStorage.removeItem('starterLogs');
+                loadLogs();
+            }
+        }
+        
         // Initialize
-        window.onload = function() {
-            renderSweetRoll();
+        window.onload = () => {
             calcHydration();
             estimateTime();
-            // Add other init calls as needed
+            calcBaker();
             document.getElementById('feedDate').value = new Date().toISOString().slice(0,16);
+            loadLogs();
         };
     </script>
 </body>
